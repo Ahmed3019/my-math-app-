@@ -11,7 +11,7 @@ docker build -t $DOCKER_IMAGE_NAME .
 
 # Run the Docker container
 echo "Running the Docker container..."
-docker run -d --name $DOCKER_CONTAINER_NAME -p 5000:5000 $DOCKER_IMAGE_NAME
+docker run -d --it --name $DOCKER_CONTAINER_NAME -p 5000:5000 $DOCKER_IMAGE_NAME /bin/bash
 
 # Push to GitHub
 echo "Pushing to GitHub repository..."
