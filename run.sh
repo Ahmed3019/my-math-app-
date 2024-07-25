@@ -11,7 +11,7 @@ docker build -t $DOCKER_IMAGE_NAME .
 
 # Run the Docker container
 echo "Running the Docker container..."
-docker run -d --it --name $DOCKER_CONTAINER_NAME -p 5000:5000 $DOCKER_IMAGE_NAME /bin/bash
+docker run -d --name $DOCKER_CONTAINER_NAME -p 5000:5000 $DOCKER_IMAGE_NAME
 
 # Push to GitHub
 echo "Pushing to GitHub repository..."
@@ -19,6 +19,7 @@ echo "Pushing to GitHub repository..."
 if [ ! -d .git ]; then
     git init
     git remote add origin $GITHUB_REPO_URL
+    git checkout -b main
 fi
 
 # Add changes and commit
@@ -26,6 +27,6 @@ git add .
 git commit -m "Initial commit of the Math API application"
 
 # Push to the remote repository
-git push -u origin master
+git push -u origin main
 
 echo "Done!"
