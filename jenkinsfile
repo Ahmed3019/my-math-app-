@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    environment {
+        DOCKERCRED = 'docker-hub-cred'
+    }
+    
+    stages {
+        stage("Build App") {
+            steps {
+                script {
+                    echo "-------- Building the application --------"
+                    // Building the Docker image
+                    sh 'docker build -t ahmedsalama3014/math-app:v2 .'
+                }
+            }
+        }
+
+        stage("Push Image") {
+            steps {
+                script {
+                    echo "-------- Pushing the image to Docker Hub --------"
+                    // Logging in to Docker Hub
+                    withCredentials([usernamePassword(credentialsId: DOCKERCRED, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    }
+                    // Pushing the Docker image
+                    sh 'docker push ahmedsalama3014/math-app:v2'
+                }
+            }
+        }
+    }
+}
